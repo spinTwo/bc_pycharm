@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-<%- gpu = context.node_type.include?("vis") -%>
-
 # Clean the environment
 module purge
+
+# Work around spam message about dconf write permissions
+#export XDG_RUNTIME_DIR="/tmp/${UID}"
+unsetenv XDG_RUNTIME_DIR
 
 # Set working directory to home directory
 cd "${HOME}"
@@ -11,37 +13,28 @@ cd "${HOME}"
 #
 # Launch Xfce Window Manager and Panel
 #
-export SEND_256_COLORS_TO_REMOTE=1
-export XDG_CONFIG_HOME="<%= session.staged_root.join("config") %>"
-export XDG_DATA_HOME="<%= session.staged_root.join("share") %>"
-export XDG_CACHE_HOME="$(mktemp -d)"
-export $(dbus-launch)
 
-module restore
-set -x
-
-source /etc/os-release
-
-if [[ "$VERSION_ID" < "9" ]]; then
+(
+  export SEND_256_COLORS_TO_REMOTE=1
+  export XDG_CONFIG_HOME="<%= session.staged_root.join("config") %>"
+  export XDG_DATA_HOME="<%= session.staged_root.join("share") %>"
+  export XDG_CACHE_HOME="$(mktemp -d)"
+  module restore
+  # set -x
   xfwm4 --compositor=off --daemon --sm-client-disable
   xsetroot -solid "#D3D3D3"
   xfsettingsd --sm-client-disable
-  xfce4-panel --sm-client-disable &
-else
-  xfwm4 --compositor=off --sm-client-disable &
-  xsetroot -solid "#D3D3D3"
-  xfsettingsd --sm-client-disable &
-  xfce4-panel --sm-client-disable &
-fi
+  xfce4-panel --sm-client-disable
+) &
 
 #
-# Start PyCharm
+# Start MATLAB
 #
 
 # Load the required environment
-module load <%= context.auto_modules_pycharm %>
+module load <%= context.version %>
 
-# Launch pycharm
+# Launch PyCharm
 module list
 set -x
 pycharm

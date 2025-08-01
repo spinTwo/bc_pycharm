@@ -1,27 +1,41 @@
 ---
-cluster:
-  - "slurm"
-form:
-  - auto_modules_pycharm
-  - auto_accounts
-  - bc_num_hours
-  - bc_num_slots
-  - num_cores
-  - bc_vnc_resolution
-  - bc_email_on_started
+title: "PyCharm"
+cluster: "slurm"
+description: |
+  This app will launch a PyCharm IDE on the spinTwo slurm cluster. You will be
+  able to interact with PyCharm through a VNC session.
 attributes:
-  auto_modules_pycharm:
-    default: false
   num_cores:
-    widget: "number_field"
     label: "Number of cores"
     value: 1
     help: |
-      The minimum and maximum will change based on your choice of cluster
-      and node type.
+      Maximum of 2 tasks is allowed on a spinTwo cluster partition
     min: 1
-    max: 28
     step: 1
-  bc_num_slots: "1"
+  bc_num_hours:
+    widget: "number_field"
+    value: 1
+    min: 1
+    step: 1
+    help: "Job Walltime"
   bc_vnc_resolution:
     required: true
+  version:
+    widget: select
+    label: "{PyCharm} version"
+    help: "This defines the version of PyCharm you want to load."
+    options:
+      - [ "2024.1.4", "pycharm/2024.1.4" ]
+  bc_account:
+    label: "Account"
+  bc_queue:
+    label: "Partition"
+    value: "debug"
+form:
+  - version
+  - num_cores
+  - bc_num_hours
+  - bc_account
+  - bc_queue
+  - bc_vnc_resolution
+  - bc_email_on_started
