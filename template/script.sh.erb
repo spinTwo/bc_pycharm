@@ -1,40 +1,25 @@
 #!/usr/bin/env bash
 
-# Clean the environment
+# Clean environment
 module purge
 
-# Work around spam message about dconf write permissions
-#export XDG_RUNTIME_DIR="/tmp/${UID}"
-unsetenv XDG_RUNTIME_DIR
-
-# Set working directory to home directory
+# Set HOME as working directory
 cd "${HOME}"
 
-#
-# Launch Xfce Window Manager and Panel
-#
+# Work around common dconf/dbus issues
+export XDG_RUNTIME_DIR="/tmp/${UID}"
+unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
 
-(
-  export SEND_256_COLORS_TO_REMOTE=1
-  export XDG_CONFIG_HOME="<%= session.staged_root.join("config") %>"
-  export XDG_DATA_HOME="<%= session.staged_root.join("share") %>"
-  export XDG_CACHE_HOME="$(mktemp -d)"
-  module restore
-  # set -x
-  xfwm4 --compositor=off --daemon --sm-client-disable
-  xsetroot -solid "#D3D3D3"
-  xfsettingsd --sm-client-disable
-  xfce4-panel --sm-client-disable
-) &
+# Set XDG base directories for user config/cache
+export XDG_CONFIG_HOME="<%= session.staged_root.join("config") %>"
+export XDG_DATA_HOME="<%= session.staged_root.join("share") %>"
+export XDG_CACHE_HOME="$(mktemp -d)"
 
-#
-# Start MATLAB
-#
-
-# Load the required environment
+# Load PyCharm module
+module restore
 module load <%= context.version %>
 
-# Launch PyCharm
-module list
+# Start PyCharm directly
 set -x
 pycharm

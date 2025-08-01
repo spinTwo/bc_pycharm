@@ -13,10 +13,7 @@ attributes:
     min: 1
     step: 1
   bc_num_hours:
-    widget: "number_field"
-    value: 1
-    min: 1
-    step: 1
+    value: "1:00:00"
     help: "Job Walltime"
   bc_vnc_resolution:
     required: true
