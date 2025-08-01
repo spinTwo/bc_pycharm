@@ -11,6 +11,9 @@ export XDG_RUNTIME_DIR="/tmp/${UID}"
 unset SESSION_MANAGER
 unset DBUS_SESSION_BUS_ADDRESS
 
+export _JAVA_OPTIONS="-Dsun.java2d.opengl=false"
+export _JAVA_AWT_WM_NONREPARENTING=1
+
 # Set XDG base directories for user config/cache
 export XDG_CONFIG_HOME="<%= session.staged_root.join("config") %>"
 export XDG_DATA_HOME="<%= session.staged_root.join("share") %>"
@@ -22,4 +25,5 @@ module load <%= context.version %>
 
 # Start PyCharm directly
 set -x
+openbox &
 pycharm
