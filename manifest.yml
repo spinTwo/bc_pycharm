@@ -1,10 +1,10 @@
 ---
-name: MATLAB (legacy)
+name: PyCharm
 category: Interactive Apps
-subcategory: GUIs
+subcategory: IDEs
 role: batch_connect
 description: |
-  This app will launch a [MATLAB] GUI on a given cluster. You will be able
-  to interact with the MATLAB GUI through a VNC session.
+  This app will launch a [PyCharm] IDE on a given cluster. You will be able
+  to interact with the PyCharm through a VNC session.
 
-  [MATLAB]: https://www.mathworks.com/products/matlab.html
+  [MATLAB]: https://www.jetbrains.com/pycharm/

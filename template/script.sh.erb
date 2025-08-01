@@ -35,20 +35,13 @@ else
 fi
 
 #
-# Start MATLAB
+# Start PyCharm
 #
 
 # Load the required environment
-module load <%= context.auto_modules_matlab %>
+module load <%= context.auto_modules_pycharm %>
 
-# Launch MATLAB
-<%- if gpu -%>
-module load intel/16.0.3 virtualgl
+# Launch pycharm
 module list
 set -x
-vglrun matlab -desktop -nosoftwareopengl
-<%- else -%>
-module list
-set -x
-matlab -desktop
-<%- end -%>
+pycharm
